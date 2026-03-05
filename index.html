@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<title>Persönlichkeits Dashboard</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#0f172a;
+color:white;
+margin:0;
+padding:30px;
+}
+
+h1{
+text-align:center;
+}
+
+.container{
+max-width:800px;
+margin:auto;
+}
+
+.card{
+background:#1e293b;
+padding:20px;
+border-radius:10px;
+margin-top:20px;
+}
+
+input,select,button{
+width:100%;
+padding:10px;
+margin-top:10px;
+border-radius:8px;
+border:none;
+font-size:14px;
+}
+
+button{
+background:#38bdf8;
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+.result{
+margin-top:20px;
+}
+
+.score{
+font-size:22px;
+font-weight:bold;
+}
+
+.bar{
+height:20px;
+background:#334155;
+border-radius:10px;
+overflow:hidden;
+margin-top:5px;
+}
+
+.fill{
+height:100%;
+background:#22c55e;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>🧠 Persönlichkeits Dashboard</h1>
+
+<div class="container">
+
+<div class="card">
+
+<label>Lieblings Musik Genre</label>
+<select id="music">
+<option>Pop</option>
+<option>Rock</option>
+<option>Hip Hop</option>
+<option>Electronic</option>
+<option>Jazz</option>
+</select>
+
+<label>Fitness Level (1-10)</label>
+<input id="fitness" type="number" min="1" max="10">
+
+<label>Durchschnittlicher Schlaf (Stunden)</label>
+<input id="sleep" type="number" min="1" max="12">
+
+<label>Tägliche Bildschirmzeit (Stunden)</label>
+<input id="screen" type="number" min="0" max="16">
+
+<button onclick="analyze()">Analyse starten</button>
+
+</div>
+
+<div id="output"></div>
+
+</div>
+
+<script>
+
+function randomBase(val, range){
+return Math.max(0, Math.min(100, val + Math.floor(Math.random()*range)));
+}
+
+function analyze(){
+
+const fitness = document.getElementById("fitness").value*10;
+const sleep = document.getElementById("sleep").value*8;
+const screen = 100 - (document.getElementById("screen").value*6);
+
+const creativity = randomBase(50 + Math.random()*20,20);
+const health = randomBase((fitness + sleep)/2,15);
+const productivity = randomBase((sleep + screen)/2,20);
+
+render(creativity,"Kreativität");
+render(health,"Gesundheit");
+render(productivity,"Produktivität");
+
+}
+
+function render(score,label){
+
+const block = `
+<div class="card result">
+
+<h3>${label}</h3>
+
+<div class="score">${Math.round(score)}%</div>
+
+<div class="bar">
+<div class="fill" style="width:${score}%"></div>
+</div>
+
+</div>
+`;
+
+document.getElementById("output").innerHTML += block;
+
+}
+
+</script>
+
+</body>
+</html>
